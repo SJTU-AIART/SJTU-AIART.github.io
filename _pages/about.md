@@ -1,50 +1,16 @@
 ---
 permalink: /
-title: "academicpages is a ready-to-fork GitHub Pages template for academic personal websites"
+title: #"academicpages is a ready-to-fork GitHub Pages template for academic personal websites"
 excerpt: "About me"
 author_profile: true
 redirect_from: 
   - /about/
   - /about.html
 ---
+传统的数字绘画系统通常需要真实世界中的画家对画笔进行直接操控，这对绘画引擎的实时性要求极高，使得仿真系统往往不得不牺牲仿真的精度来提升计算速度。为此，我们基于强化学习与流体仿真算法设计了一种用于真实感3D油画自主绘制的仿真引擎，只需输入2D图像，计算机便可自主绘制对应的3D真实感油画，并可接入3D打印。
 
-This is the front page of a website that is powered by the [academicpages template](https://github.com/academicpages/academicpages.github.io) and hosted on GitHub pages. [GitHub pages](https://pages.github.com) is a free service in which websites are built and hosted from code and data stored in a GitHub repository, automatically updating when a new commit is made to the respository. This template was forked from the [Minimal Mistakes Jekyll Theme](https://mmistakes.github.io/minimal-mistakes/) created by Michael Rose, and then extended to support the kinds of content that academics have: publications, talks, teaching, a portfolio, blog posts, and a dynamically-generated CV. You can fork [this repository](https://github.com/academicpages/academicpages.github.io) right now, modify the configuration and markdown files, add your own PDFs and other content, and have your own site for free, with no ads! An older version of this template powers my own personal website at [stuartgeiger.com](http://stuartgeiger.com), which uses [this Github repository](https://github.com/staeiou/staeiou.github.io).
+在本工作中，我们首先使用深度神经网络对图像进行油画风格化，然后通过强化学习方法或我们新提出的矢量流引导方法将输入2D图像拆解成一系列笔触，为此我们定义了连续笔触参数空间，包括笔画位置、颜色和透明度，以提高绘画质量。之后我们又设计了基于SPH算法的非牛顿流体仿真模块，该模块以笔触参数为输入，用大量高粘度的流体粒子表示油画颜料，用弹簧质点系统模拟笔刷，仿真真实世界油画绘制过程中笔刷与颜料交互过程以及油画颜料的流动、碰撞和凝固。其中，为了兼顾仿真的准确性以及计算速度，我们对笔刷附近粒子进行亚像素级的拉格朗日视角流体模拟，对离笔刷较远的流体粒子进行欧拉视角的仿真。最后我们设计了表面重建与渲染模块，以颜料流体粒子为输入，输出真实感油画。
 
-A data-driven personal website
-======
-Like many other Jekyll-based GitHub Pages templates, academicpages makes you separate the website's content from its form. The content & metadata of your website are in structured markdown files, while various other files constitute the theme, specifying how to transform that content & metadata into HTML pages. You keep these various markdown (.md), YAML (.yml), HTML, and CSS files in a public GitHub repository. Each time you commit and push an update to the repository, the [GitHub pages](https://pages.github.com/) service creates static HTML pages based on these files, which are hosted on GitHub's servers free of charge.
+我们还在电脑端开发了一款能通过拖动鼠标来实时绘制油画的软件。该软件基于QT的MVC框架搭建，由两个子系统组成，分别是仿真系统和渲染系统。用户操作流程是，用户在画布上点击鼠标左键，表示画笔接触画布上鼠标的对应位置并绘制点，用户按住鼠标左键并拖动鼠标，表示画笔在画布上移动并绘制线条；用户可以在参数面板中修改相应的仿真系统参数和渲染系统参数，本软件会实时响应参数更新以满足用户的体验需求；绘制完毕后，用户可以将当前画面导出。本软件的运行机制是，QT捕捉鼠标移动轨迹并驱动仿真系统沿该轨迹释放颜料粒子，仿真系统按预设物理规律维护颜料粒子的运动情况，渲染系统从仿真系统获取每帧的颜料粒子信息并进行渲染。其中，仿真系统基于开源项目Dual-SPH开发，针对油画颜料的物理、化学性质设计仿真过程，围绕CUDA编程特点设计数据结构，使用GPU加速粒子仿真，令该软件即使在大众的消费级显卡也能达到实时性；渲染系统使用OpenGL图形库进行开发，围绕油画颜料的特点定制着色器，既降低时空复杂度，同时提供逼真的渲染效果。本软件使用C++编程语言进行开发，用cmake组织项目架构，开发过程严格按照工程规范，具备极高的可维护性、可移植性和可拓展性。目前该系统已投入应用，预计将成为未来交互式3D智能绘画领域的重要基础系统。由我们的智能绘画系统产生的油画效果下图所示。
 
-Many of the features of dynamic content management systems (like Wordpress) can be achieved in this fashion, using a fraction of the computational resources and with far less vulnerability to hacking and DDoSing. You can also modify the theme to your heart's content without touching the content of your site. If you get to a point where you've broken something in Jekyll/HTML/CSS beyond repair, your markdown files describing your talks, publications, etc. are safe. You can rollback the changes or even delete the repository and start over -- just be sure to save the markdown files! Finally, you can also write scripts that process the structured data on the site, such as [this one](https://github.com/academicpages/academicpages.github.io/blob/master/talkmap.ipynb) that analyzes metadata in pages about talks to display [a map of every location you've given a talk](https://academicpages.github.io/talkmap.html).
-
-Getting started
-======
-1. Register a GitHub account if you don't have one and confirm your e-mail (required!)
-1. Fork [this repository](https://github.com/academicpages/academicpages.github.io) by clicking the "fork" button in the top right. 
-1. Go to the repository's settings (rightmost item in the tabs that start with "Code", should be below "Unwatch"). Rename the repository "[your GitHub username].github.io", which will also be your website's URL.
-1. Set site-wide configuration and create content & metadata (see below -- also see [this set of diffs](http://archive.is/3TPas) showing what files were changed to set up [an example site](https://getorg-testacct.github.io) for a user with the username "getorg-testacct")
-1. Upload any files (like PDFs, .zip files, etc.) to the files/ directory. They will appear at https://[your GitHub username].github.io/files/example.pdf.  
-1. Check status by going to the repository settings, in the "GitHub pages" section
-
-Site-wide configuration
-------
-The main configuration file for the site is in the base directory in [_config.yml](https://github.com/academicpages/academicpages.github.io/blob/master/_config.yml), which defines the content in the sidebars and other site-wide features. You will need to replace the default variables with ones about yourself and your site's github repository. The configuration file for the top menu is in [_data/navigation.yml](https://github.com/academicpages/academicpages.github.io/blob/master/_data/navigation.yml). For example, if you don't have a portfolio or blog posts, you can remove those items from that navigation.yml file to remove them from the header. 
-
-Create content & metadata
-------
-For site content, there is one markdown file for each type of content, which are stored in directories like _publications, _talks, _posts, _teaching, or _pages. For example, each talk is a markdown file in the [_talks directory](https://github.com/academicpages/academicpages.github.io/tree/master/_talks). At the top of each markdown file is structured data in YAML about the talk, which the theme will parse to do lots of cool stuff. The same structured data about a talk is used to generate the list of talks on the [Talks page](https://academicpages.github.io/talks), each [individual page](https://academicpages.github.io/talks/2012-03-01-talk-1) for specific talks, the talks section for the [CV page](https://academicpages.github.io/cv), and the [map of places you've given a talk](https://academicpages.github.io/talkmap.html) (if you run this [python file](https://github.com/academicpages/academicpages.github.io/blob/master/talkmap.py) or [Jupyter notebook](https://github.com/academicpages/academicpages.github.io/blob/master/talkmap.ipynb), which creates the HTML for the map based on the contents of the _talks directory).
-
-**Markdown generator**
-
-I have also created [a set of Jupyter notebooks](https://github.com/academicpages/academicpages.github.io/tree/master/markdown_generator
-) that converts a CSV containing structured data about talks or presentations into individual markdown files that will be properly formatted for the academicpages template. The sample CSVs in that directory are the ones I used to create my own personal website at stuartgeiger.com. My usual workflow is that I keep a spreadsheet of my publications and talks, then run the code in these notebooks to generate the markdown files, then commit and push them to the GitHub repository.
-
-How to edit your site's GitHub repository
-------
-Many people use a git client to create files on their local computer and then push them to GitHub's servers. If you are not familiar with git, you can directly edit these configuration and markdown files directly in the github.com interface. Navigate to a file (like [this one](https://github.com/academicpages/academicpages.github.io/blob/master/_talks/2012-03-01-talk-1.md) and click the pencil icon in the top right of the content preview (to the right of the "Raw | Blame | History" buttons). You can delete a file by clicking the trashcan icon to the right of the pencil icon. You can also create new files or upload files by navigating to a directory and clicking the "Create new file" or "Upload files" buttons. 
-
-Example: editing a markdown file for a talk
 ![Editing a markdown file for a talk](/images/editing-talk.png)
-
-For more info
-------
-More info about configuring academicpages can be found in [the guide](https://academicpages.github.io/markdown/). The [guides for the Minimal Mistakes theme](https://mmistakes.github.io/minimal-mistakes/docs/configuration/) (which this theme was forked from) might also be helpful.
